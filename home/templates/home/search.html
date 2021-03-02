@@ -1,0 +1,18 @@
+{% extends 'home/index.html' %}
+
+{% block title %}DailyNeeds - Search Results{% endblock title %}
+
+{% block main %}
+{% for item in allItems %}
+      <div class="card m-4" style="width: 80 rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{item.name}}</h5>
+          <h6 class="card-subtitle mb-15 text-muted">{{item.store}}</h6>
+          <p class="card-text">{{item.description | truncatechars:500}}</p>
+          <a href="/{{item.slug}}" class="card-link">See Full Details</a>
+          <a href="#" class="card-link">Add To Cart</a>
+          <a href="#" class="card-link">Buy Now</a>
+        </div>
+      </div>
+      {% endfor %}
+{% endblock  %}
