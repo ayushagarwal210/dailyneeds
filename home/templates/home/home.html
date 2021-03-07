@@ -48,7 +48,8 @@
       <div class="card m-4" style="width: 30rem;">
         <div class="card-body">
           <h5 class="card-title">{{item.name}}</h5>
-          <h6 class="card-subtitle mb-15 text-muted">{{item.store}}</h6>
+          <h6 class="card-subtitle mb-15 text-muted">Price: ${{item.price}}.00</h6>
+          <br>
           <p class="card-text">{{item.description | truncatechars:500}}</p>
           <a href="/{{item.slug}}" class="card-link">See Full Details</a>
           <a href="#" class="card-link">Add To Cart</a>

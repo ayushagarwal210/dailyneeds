@@ -3,6 +3,13 @@
 {% block title %}DailyNeeds - Search Results{% endblock title %}
 
 {% block main %}
+<div class="container m-4">
+<h1>Search Results : </h1>
+{% if allItems|length < 1 %}
+  <p>No Search Result Found</p>
+  Your Search - <b>"{{search}}"</b> - did not match any document.
+{% endif %}
+
 {% for item in allItems %}
       <div class="card m-4" style="width: 80 rem;">
         <div class="card-body">
@@ -15,4 +22,5 @@
         </div>
       </div>
       {% endfor %}
+</div>
 {% endblock  %}

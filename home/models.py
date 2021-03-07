@@ -13,6 +13,8 @@ class Contact(models.Model):
 
 class Item(models.Model):
     name=models.CharField(max_length=300)
+    price=models.IntegerField()
+    category=models.CharField(max_length=20)
     description=models.TextField()
     store=models.CharField(max_length=300)
     timestamp=models.DateTimeField()
