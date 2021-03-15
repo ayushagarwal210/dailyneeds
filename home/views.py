@@ -9,6 +9,31 @@ from django.contrib.auth import authenticate,login,logout
 def home(request):
     allItems=Item.objects.all()
     context={'allItems' : allItems}
+    # print(request.session.get('user_id'))
+    if request.method=='POST':
+        item=request.POST.get('item')
+        remove=request.POST.get('remove')
+        cart=request.session.get('cart')
+        if cart:
+            quantity=cart.get(item)
+            if quantity:
+                if remove:
+                    if quantity<=1:
+                        cart.pop(item)
+                    else:
+                        cart[item]=quantity-1
+                else:
+                    cart[item]=quantity+1
+            else:
+                cart[item]=1
+        else:
+            cart={}
+            cart[item]=1
+
+        request.session['cart']=cart
+        print(request.session['cart'])
+        return redirect('/')
+        
     return render(request,'home/home.html',context)
 
 def about(request):
@@ -82,6 +107,8 @@ def handleLogin(request):
         if user is not None: 
             login(request,user)
             messages.success(request,"Successfully loggedin")
+            request.session['user_id']=user.id
+            request.session['user_email']=user.email
             return redirect("/")
         else:
             messages.error(request,"Invalid Credentials")

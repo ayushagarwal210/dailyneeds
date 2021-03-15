@@ -3,6 +3,8 @@
   active
 {% endblock homeactive %}
 {% block main %}
+{% load cart %}
+
 <div class="container ">
     <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -45,16 +47,38 @@
       </div>
       <!-- CARD  -->
       {% for item in allItems %}
-      <div class="card m-4" style="width: 30rem;">
+      <div class="card m-3" id="{{item.id}}" style="width: 18rem;">
+        <img src="{{item.image.url}}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{item.name}}</h5>
-          <h6 class="card-subtitle mb-15 text-muted">Price: ${{item.price}}.00</h6>
-          <br>
-          <p class="card-text">{{item.description | truncatechars:500}}</p>
-          <a href="/{{item.slug}}" class="card-link">See Full Details</a>
-          <a href="#" class="card-link">Add To Cart</a>
-          <a href="#" class="card-link">Buy Now</a>
+          <h6 class="card-title">Price: ${{item.price}}.00</h6>
+          <p class="card-text">{{item.description | truncatechars:100}}</p>
+          <form action="/" method="POST"> 
+          {% csrf_token %}    
+          <input hidden type="text" name="item" value="{{item.id}}">
+          <a href="{{item.slug}}" class="btn btn-primary">See full details</a>
+          {% if item|is_in_cart:request.session.cart %}
+          <input type="submit" class="btn btn-primary" value="Show Cart"> 
+          <div class="card-footer row no-gutters m-2 p-0">
+            <form action="/#{{item.id}}" method="POST" class="col-2">
+              {% csrf_token %}    
+          <input hidden type="text" name="item" value="{{item.id}}">
+            <input type="submit" value="-" class="btn btn-btn-block btn-secondary">
+            <input hidden type="text" name="remove" value="True">
+          </form>
+            <div class="text-center col">{{item|cart_quantity:request.session.cart}} in cart</div>
+            <form action="/#{{item.id}}" method="POST" class="col-2">
+              {% csrf_token %}    
+          <input hidden type="text" name="item" value="{{item.id}}">
+            <input type="submit" value="+" class="btn btn-btn-block btn-secondary">
+          </form>
+          </div> 
+          {% else %}
+          <input type="submit" class="btn btn-primary" value="Add to cart">   
+          {% endif %}
+        </form>
         </div>
+        
       </div>
-      {% endfor %}
+      {% endfor %}     
 {% endblock %}

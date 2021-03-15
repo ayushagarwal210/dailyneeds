@@ -1,6 +1,7 @@
 {% extends 'home/index.html' %}
 {% block main %}
 <div class="container m-4">
+<img src="{{item.image.url}}" alt="">
 <h2>{{item.name}}</h2>
 <h3>Price: ${{item.price}}.00</h3>
 <h5>{{item.store}}</h5>

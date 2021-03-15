@@ -14,14 +14,17 @@ class Contact(models.Model):
 class Item(models.Model):
     name=models.CharField(max_length=300)
     price=models.IntegerField()
-    category=models.CharField(max_length=20)
+    category=models.CharField(max_length=20,default=None)
+    image=models.ImageField(upload_to='images/',blank=True,null=True)
     description=models.TextField()
     store=models.CharField(max_length=300)
     timestamp=models.DateTimeField()
     slug=models.CharField(max_length=30)
 
     def __str__(self):
-        return self.name+'by'+self.store
+        return self.name+' by '+self.store
+
+    
     
 
     

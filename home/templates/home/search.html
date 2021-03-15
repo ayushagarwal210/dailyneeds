@@ -11,14 +11,14 @@
 {% endif %}
 
 {% for item in allItems %}
-      <div class="card m-4" style="width: 80 rem;">
+      <div class="card m-3" style="width: 18rem;">
+        <img src="{{item.image.url}}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{item.name}}</h5>
-          <h6 class="card-subtitle mb-15 text-muted">{{item.store}}</h6>
-          <p class="card-text">{{item.description | truncatechars:500}}</p>
-          <a href="/{{item.slug}}" class="card-link">See Full Details</a>
-          <a href="#" class="card-link">Add To Cart</a>
-          <a href="#" class="card-link">Buy Now</a>
+          <h6 class="card-title">Price: ${{item.price}}.00</h6>
+          <p class="card-text">{{item.description | truncatechars:100}}</p>
+          <a href="#" class="btn btn-primary">Add to cart</a>
+          <a href="{{item.slug}}" class="btn btn-primary">See full details</a>
         </div>
       </div>
       {% endfor %}
