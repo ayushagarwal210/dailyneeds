@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Contact,Item
+from .models import Contact,Item,Order
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate,login,logout
 def home(request):
     allItems=Item.objects.all()
     context={'allItems' : allItems}
-    # print(request.session.get('user_id'))
+    # print(request.session.get('user_email'))
     if request.method=='POST':
         item=request.POST.get('item')
         remove=request.POST.get('remove')
@@ -31,7 +31,8 @@ def home(request):
             cart[item]=1
 
         request.session['cart']=cart
-        print(request.session['cart'])
+        # print(request.session['cart'])
+        # print(user_email)
         return redirect('/')
         
     return render(request,'home/home.html',context)
@@ -121,4 +122,23 @@ def handleLogout(request):
     messages.success(request,"Successfully Logged Out")
     return redirect('/')
 
+def cart(request):
+    ids=list(request.session.get('cart').keys())
+    items=Item.get_product_by_id(ids)
+    return render(request,'home/cart.html', {'items':items})
+
+def checkout(request):
+    if request.method=='POST':
+        address=request.POST.get('address')
+        phone=request.POST.get('phone')
+        user=request.session.get('user_id')
+        cart=request.session.get('cart')
+        items=Item.get_product_by_id(list(cart.keys()))
+        print(address,phone,user,cart,items)
+
+        for item in items:
+            order=Order(user=User(id=user),item=item,price=item.price,quantity=cart.get(str(item.id)),address=address,phone=phone)
+            order.save()
+        request.session['cart']={}
+        return redirect('/cart')
     

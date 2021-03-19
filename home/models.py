@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class Contact(models.Model):
@@ -21,8 +22,22 @@ class Item(models.Model):
     timestamp=models.DateTimeField()
     slug=models.CharField(max_length=30)
 
+    @staticmethod
+    def get_product_by_id(ids):
+        return Item.objects.filter(id__in=ids)
+
     def __str__(self):
         return self.name+' by '+self.store
+
+
+class Order(models.Model):
+    item=models.ForeignKey(Item,on_delete=models.CASCADE)
+    user=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    quantity=models.IntegerField(default=1)
+    price=models.IntegerField(default=None,blank=True)
+    address=models.CharField(max_length=100,default='')
+    phone=models.CharField(max_length=10,default='')
+    # date=models.DateTimeField()
 
     
     
