@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+import datetime
 
 # Create your models here.
 class Contact(models.Model):
@@ -37,7 +38,11 @@ class Order(models.Model):
     price=models.IntegerField(default=None,blank=True)
     address=models.CharField(max_length=100,default='')
     phone=models.CharField(max_length=10,default='')
-    # date=models.DateTimeField()
+    timestamp=models.DateTimeField(default=datetime.date.today)
+
+    @staticmethod
+    def get_order_by_user(user_id):
+        return Order.objects.filter(user=user_id)
 
     
     

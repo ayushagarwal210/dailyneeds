@@ -141,4 +141,10 @@ def checkout(request):
             order.save()
         request.session['cart']={}
         return redirect('/cart')
+
+def order(request):
+    user=request.session.get('user_id')
+    orders=Order.get_order_by_user(user)
+    print(orders)
+    return render(request,'home/order.html',{'orders':orders})
     

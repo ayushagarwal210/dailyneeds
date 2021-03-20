@@ -13,5 +13,6 @@ urlpatterns = [
     path('login',views.handleLogin,name='handleLogin'),
     path('logout',views.handleLogout,name='handleLogout'),
     path('cart',views.cart,name='cart'),
+    path('order',views.order,name='order'),
     path('<str:slug>',views.item,name='item'),
 ]
