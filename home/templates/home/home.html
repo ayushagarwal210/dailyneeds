@@ -53,13 +53,11 @@
           <h5 class="card-title">{{item.name}}</h5>
           <h6 class="card-title">Price: ${{item.price}}.00</h6>
           <p class="card-text">{{item.description | truncatechars:100}}</p>
+          <a href="{{item.slug}}" class="btn btn-primary">See full details</a>
           <form action="/" method="POST"> 
           {% csrf_token %}    
           <input hidden type="text" name="item" value="{{item.id}}">
-          <a href="{{item.slug}}" class="btn btn-primary">See full details</a>
           {% if item|is_in_cart:request.session.cart %}
-          <input type="submit" class="btn btn-primary" value="Show Cart"> 
-          <div class="card-footer row no-gutters m-2 p-0">
             <form action="/#{{item.id}}" method="POST" class="col-2">
               {% csrf_token %}    
           <input hidden type="text" name="item" value="{{item.id}}">
@@ -72,13 +70,11 @@
           <input hidden type="text" name="item" value="{{item.id}}">
             <input type="submit" value="+" class="btn btn-btn-block btn-secondary">
           </form>
-          </div> 
+        </div> 
           {% else %}
           <input type="submit" class="btn btn-primary" value="Add to cart">   
           {% endif %}
         </form>
         </div>
-        
-      </div>
       {% endfor %}     
 {% endblock %}

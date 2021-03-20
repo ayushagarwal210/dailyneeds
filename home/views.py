@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.conf import settings
 from django.http import HttpResponse
 from .models import Contact,Item,Order
 from django.contrib import messages
@@ -9,7 +10,7 @@ from django.contrib.auth import authenticate,login,logout
 def home(request):
     allItems=Item.objects.all()
     context={'allItems' : allItems}
-    # print(request.session.get('user_email'))
+    print(request.session.get('user_id'))
     if request.method=='POST':
         item=request.POST.get('item')
         remove=request.POST.get('remove')
@@ -93,6 +94,8 @@ def handleSignup(request):
         myUser.name=name
         myUser.phone=phone
         myUser.save()
+        request.session['user_id']=user.id
+        request.session['user_email']=user.email
         messages.success(request,"Account Successfully Created")
         login(request,myUser)
         return redirect('/')
@@ -138,13 +141,14 @@ def checkout(request):
 
         for item in items:
             order=Order(user=User(id=user),item=item,price=item.price,quantity=cart.get(str(item.id)),address=address,phone=phone)
+            print(order)
             order.save()
         request.session['cart']={}
         return redirect('/cart')
 
-def order(request):
+def order_view(request):
     user=request.session.get('user_id')
     orders=Order.get_order_by_user(user)
-    print(orders)
+    # print(orders)
     return render(request,'home/order.html',{'orders':orders})
     
