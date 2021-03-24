@@ -47,17 +47,19 @@
       </div>
       <!-- CARD  -->
       {% for item in allItems %}
-      <div class="card m-3" id="{{item.id}}" style="width: 18rem;">
-        <img src="{{item.image.url}}" class="card-img-top" alt="...">
+      <div class="container d-flex flex-row bd-highlight mb-3">
+      <div class="card m-3" id="{{item.id}}" style="max-width: 25rem;">
+        <img src="{{item.image.url}}" class="card-img-top" alt="..." style="height: 300px;">
         <div class="card-body">
-          <h5 class="card-title">{{item.name}}</h5>
+          <h5 class="card-title">{{item.name|truncatechars:70}}</h5>
           <h6 class="card-title">Price: ${{item.price}}.00</h6>
           <p class="card-text">{{item.description | truncatechars:100}}</p>
-          <a href="{{item.slug}}" class="btn btn-primary">See full details</a>
+          <a href="{{item.slug}}" class="btn btn-primary m-2">See full details</a>
           <form action="/" method="POST"> 
           {% csrf_token %}    
           <input hidden type="text" name="item" value="{{item.id}}">
           {% if item|is_in_cart:request.session.cart %}
+          <div class="container d-flex flex-row bd-highlight m-3">
             <form action="/#{{item.id}}" method="POST" class="col-2">
               {% csrf_token %}    
           <input hidden type="text" name="item" value="{{item.id}}">
@@ -69,12 +71,15 @@
               {% csrf_token %}    
           <input hidden type="text" name="item" value="{{item.id}}">
             <input type="submit" value="+" class="btn btn-btn-block btn-secondary">
-          </form>
-        </div> 
+          </form> 
+        </div>
           {% else %}
-          <input type="submit" class="btn btn-primary" value="Add to cart">   
+          <div class="container">
+          <input type="submit" class="btn btn-primary" value="Add to cart"> 
+        </div>  
           {% endif %}
         </form>
-        </div>
+      </div>
+    </div>
       {% endfor %}     
 {% endblock %}

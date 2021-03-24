@@ -150,5 +150,6 @@ def order_view(request):
     user=request.session.get('user_id')
     orders=Order.get_order_by_user(user)
     # print(orders)
+    orders=orders.reverse()
     return render(request,'home/order.html',{'orders':orders})
     

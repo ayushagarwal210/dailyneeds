@@ -20,6 +20,7 @@
                     <th scope="col">Date</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -33,6 +34,11 @@
                         <td>{{order.timestamp}}</td>
                         <td>{{order.quantity}}</td>
                         <td>${{order.quantity|multiply:order.price}}.00</td>
+                        {% if order.status %}
+                        <td><small class="badge bg-success">Completed</small></td>
+                        {% else %}
+                        <td><small class="badge bg-info text-dark">Pending</small></td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

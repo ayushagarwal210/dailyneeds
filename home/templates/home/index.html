@@ -30,7 +30,10 @@
                 <a class="nav-link {% block contactactive %}{% endblock contactactive %}" href= "/contact">Contact Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {% block cartactive %}{% endblock cartactive %}" href= "/cart">Cart</a>
+                <a class="nav-link {% block cartactive %}{% endblock cartactive %}" href= "/cart">Cart
+                  <span class="badge bg-info">{{request.session.cart.keys|length}}</span>
+                  </a>
+    
               </li>
               <li class="nav-item">
                 <a class="nav-link {% block orderactive %}{% endblock orderactive %}" href= "/order">Orders</a>

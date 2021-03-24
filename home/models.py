@@ -39,10 +39,11 @@ class Order(models.Model):
     address=models.CharField(max_length=100,default='')
     phone=models.CharField(max_length=10,default='')
     timestamp=models.DateTimeField(default=datetime.date.today)
+    status=models.BooleanField(default=False)
 
     @staticmethod
     def get_order_by_user(user_id):
-        return Order.objects.filter(user=user_id)
+        return Order.objects.filter(user=user_id).order_by('timestamp')
 
     
     
