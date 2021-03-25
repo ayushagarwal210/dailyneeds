@@ -127,8 +127,10 @@ def handleLogout(request):
 
 def cart(request):
     ids=list(request.session.get('cart').keys())
-    items=Item.get_product_by_id(ids)
+    if ids is not None:
+        items=Item.get_product_by_id(ids)
     return render(request,'home/cart.html', {'items':items})
+    
 
 def checkout(request):
     if request.method=='POST':
