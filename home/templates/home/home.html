@@ -15,21 +15,21 @@
         {% load static %}
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src= '{% static "home/image4.png" %}' class="d-block w-100" alt="My Image" style="height: 700px;">
+            <img src= '{% static "home/image4.png" %}' class="d-block w-100" alt="My Image" style="height: 600px;opacity: 0.8">
             <div class="carousel-caption d-none d-md-block">
               <h5>GROCERIES</h5>
               <p>We provide all groceries at your doorstep at just a click of a button</p>
             </div>
           </div>
           <div class="carousel-item">
-            <img src='{% static "home/image6.jfif" %}' class="d-block w-100" alt="..." style="height: 700px;">
+            <img src='{% static "home/image6.jfif" %}' class="d-block w-100" alt="..." style="height: 600px;opacity: 0.8;">
             <div class="carousel-caption d-none d-md-block">
               <h5>ELECTRONICS</h5>
               <p>One stop for all your electronics. Keep yourself up to date with tht fast growing tech-world.</p>
             </div>
           </div>
           <div class="carousel-item">
-            <img src='{% static "home/image5.png"%}'class="d-block w-100" alt="..." style="height: 700px;">
+            <img src='{% static "home/image5.png"%}'class="d-block w-100" alt="..." style="height: 600px;opacity: 0.8">
             <div class="carousel-caption d-none d-md-block">
               <h5>MEDICINES</h5>
               <p>Not getting medicines nearby no problem we have all your medicines at just a click away.</p>
@@ -49,7 +49,7 @@
       <div class="container row">
       {% for item in allItems %}
       <div class="card m-3" id="{{item.id}}" style="width: 23rem;">
-        <img src="{{item.image.url}}" class="card-img-top" alt="...">
+        <img src="{{item.image.url}}" class="card-img-top " alt="..." style="height: 300px;">
         <div class="card-body">
           <h5 class="card-title">{{item.name|truncatechars:70}}</h5>
           <h6 class="card-title">Price: ${{item.price}}.00</h6>

@@ -14,5 +14,6 @@ urlpatterns = [
     path('logout',views.handleLogout,name='handleLogout'),
     path('cart',views.cart,name='cart'),
     path('order',views.order_view,name='order'),
+    path('itemcomment',views.itemcomment,name='itemcomment'),
     path('<str:slug>',views.item,name='item'),
 ]

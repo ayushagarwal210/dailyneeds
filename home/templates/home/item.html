@@ -1,5 +1,6 @@
 {% extends 'home/index.html' %}
-{% block main %}
+{% block main %} 
+{% load static %}
 <div class="container m-4">
 <img src="{{item.image.url}}" alt="">
 <h2>{{item.name}}</h2>
@@ -7,4 +8,34 @@
 <h5>{{item.store}}</h5>
 <p>{{item.description}}</p>
 </div>
+<div class="container m-5">
+    <h2><b>Comments</b></h2>
+    <hr><br>
+    {% if user.is_authenticated %}
+    <form class="row g-3" action="/itemcomment" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="item_id" value="{{item.id}}">
+        <div class="col-md-6">
+          <textarea type="textar" name="comment" placeholder="Enter your comment here" class="form-control" id="inputEmail4" cols="100" rows="3"></textarea>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+      
+      {% else %}     
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary" disabled="">Login to Comment</button>
+        </div>
+    {% endif %}
+        
+            
+          {% for comment in comments %}    
+          <div class="container row m-3">
+            <img src='{% static "home/user.jfif" %}' alt="" class="col-md-2" style="height: 40px;width: 60px;">
+            <div class="col-md-10"><b>{{comment.user.username}}</b><br> {{comment.comment}}</div>
+        </div>
+          {% endfor %}
+</div>
+
 {% endblock  %}

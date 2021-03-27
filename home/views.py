@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.conf import settings
 from django.http import HttpResponse
-from .models import Contact,Item,Order
+from .models import Contact,Item,Order,ItemComment
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -57,7 +57,8 @@ def contact(request):
 
 def item(request,slug):
     item= Item.objects.filter(slug=slug).first()
-    context={'item':item}
+    comments=ItemComment.objects.filter(item=item)
+    context={'item':item,'comments':comments,'user':request.user}
     return render(request,'home/item.html',context)
 
 def search(request):
@@ -154,4 +155,16 @@ def order_view(request):
     # print(orders)
     orders=orders.reverse()
     return render(request,'home/order.html',{'orders':orders})
+
+def itemcomment(request):
+    if request.method=='POST':
+        comment=request.POST.get('comment')
+        user=request.user
+        item_id=request.POST.get("item_id")
+        # allItem=Item.objects.all()
+        item=Item.objects.get(id=item_id)
+        comment=ItemComment(comment=comment,user=user,item=item)
+        comment.save()
+        messages.success(request,"Comment Posted")
+    return redirect(f"/{item.slug}")
     
