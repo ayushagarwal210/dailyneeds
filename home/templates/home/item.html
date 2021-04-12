@@ -1,6 +1,7 @@
 {% extends 'home/index.html' %}
 {% block main %} 
 {% load static %}
+{% load custom_filter %}
 <div class="container m-4">
 <img src="{{item.image.url}}" alt="">
 <h2>{{item.name}}</h2>
@@ -14,17 +15,19 @@
     {% if user.is_authenticated %}
     <form class="row g-3" action="/itemcomment" method="post">
         {% csrf_token %}
-        <input type="hidden" name="item_id" value="{{item.id}}">
         <div class="col-md-6">
           <textarea type="textar" name="comment" placeholder="Enter your comment here" class="form-control" id="inputEmail4" cols="100" rows="3"></textarea>
         </div>
         <div class="col-12">
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
+        <input type="hidden" name="item_id" value="{{item.id}}">
+            <input type="hidden" name="parentsno" value="">
       </form>
       
       {% else %}     
         <div class="col-12">
+            
           <button type="submit" class="btn btn-primary" disabled="">Login to Comment</button>
         </div>
     {% endif %}
@@ -33,7 +36,38 @@
           {% for comment in comments %}    
           <div class="container row m-3">
             <img src='{% static "home/user.jfif" %}' alt="" class="col-md-2" style="height: 40px;width: 60px;">
-            <div class="col-md-10"><b>{{comment.user.username}}</b><br> {{comment.comment}}</div>
+            <div class="col-md-10"><b>{{comment.user.username}}</b><br> {{comment.comment}}
+                <div class="reply mx-0">
+                <p>
+                    <button class="btn btn-primary" type="submit" data-bs-toggle="collapse" data-bs-target="#replybox{{comment.sno}}" aria-expanded="false" aria-controls="replybox{{comment.sno}}">
+                      Reply
+                    </button>
+                  </p>
+                  <div class="collapse" id="replybox{{comment.sno}}">
+                        <form class="row g-3" action="/itemcomment" method="post">
+                            {% csrf_token %}
+                            <div class="col-md-6"> 
+                              <textarea type="textar" name="comment" placeholder="Enter your reply here" class="form-control" id="inputEmail4" cols="100" rows="3"></textarea>
+                              <input type="hidden" name="parentsno" value="{{comment.sno}}">
+                            </div>
+                            <div class="col-12">
+                            <input type="hidden" name="item_id" value="{{item.id}}">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </form>
+                  </div>
+                  <div class="replies my-2">
+                    {% for reply in replydict|get_val:comment.sno %}
+                    <div class="row">
+                    <div class="col-md-1 "><img class="rounded mx-auto d-block w-75 border border secondary" src='{% static "home/user.jfif" %}'
+            alt="user" ></div>
+            <div class="col-md-11"><b>{{reply.user.username}}</b>
+                    <div class="my-2">{{reply.comment}}</div>
+            </div>
+            </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
           {% endfor %}
 </div>

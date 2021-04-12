@@ -31,6 +31,8 @@
                         <td>{{item|cart_quantity:request.session.cart}}</td>
                         <td>${{item|price_total:request.session.cart}}.00</td>
                     </tr>
+                    {%empty%}
+                    <td>Sorry, Cart is empty</td>
                     {% endfor %}
                     <tfoot>
                         <tr>

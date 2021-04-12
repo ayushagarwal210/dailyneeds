@@ -57,8 +57,16 @@ def contact(request):
 
 def item(request,slug):
     item= Item.objects.filter(slug=slug).first()
-    comments=ItemComment.objects.filter(item=item)
-    context={'item':item,'comments':comments,'user':request.user}
+    comments=ItemComment.objects.filter(item=item,parent=None)
+    replies=ItemComment.objects.filter(item=item).exclude(parent=None)
+    replydict={}
+    for reply in replies:
+        if reply.parent.sno not in replydict.keys():
+            replydict[reply.parent.sno]=[reply]
+        else:
+            replydict[reply.parent.sno].append(reply)
+
+    context={'item':item,'comments':comments,'user':request.user,'replydict':replydict}
     return render(request,'home/item.html',context)
 
 def search(request):
@@ -161,10 +169,15 @@ def itemcomment(request):
         comment=request.POST.get('comment')
         user=request.user
         item_id=request.POST.get("item_id")
-        # allItem=Item.objects.all()
         item=Item.objects.get(id=item_id)
-        comment=ItemComment(comment=comment,user=user,item=item)
+        parentsno=request.POST.get('parentsno')
+        if parentsno=="":
+            comment=ItemComment(comment=comment,user=user,item=item)
+            messages.success(request,"Comment Posted")
+        else:
+            parent=ItemComment.objects.get(sno=parentsno)
+            comment=ItemComment(comment=comment,user=user,item=item,parent=parent)      
+            messages.success(request,"Reply Posted")
         comment.save()
-        messages.success(request,"Comment Posted")
     return redirect(f"/{item.slug}")
     
