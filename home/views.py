@@ -135,7 +135,10 @@ def handleLogout(request):
     return redirect('/')
 
 def cart(request):
-    ids=list(request.session.get('cart').keys())
+    session_cart_variables = request.session.get('cart')
+    ids, items = None, []
+    if session_cart_variables is not None:
+        ids=list(session_cart_variables.keys())
     if ids is not None:
         items=Item.get_product_by_id(ids)
     return render(request,'home/cart.html', {'items':items})
