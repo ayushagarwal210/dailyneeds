@@ -9,7 +9,9 @@ def bloghome(request):
     return render(request,'blog/blogHome.html',context)
 
 def post(request,slug):
-    return HttpResponse(f"{slug}")
+    post=Post.objects.filter(slug=slug).first()
+    context={'post':post}
+    return render(request,'blog/blogPost.html',context)
 
 def postcomment(request):
     return HttpResponse("post")

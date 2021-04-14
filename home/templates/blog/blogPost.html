@@ -1,0 +1,12 @@
+{% extends 'home/index.html' %}
+{% block main %}
+<div class="card m-3" style="width: 98%;">
+    <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
+      <h3 class="card-title text-center">{{post.title}}</h3>
+      <h5 class="card-subtitle mb-2 text-muted text-center">By- {{post.author}}</h5>
+      <br><hr>
+      <p class="card-text-center">{{post.content}}</p>
+    </div>
+  </div>
+{% endblock main %}
