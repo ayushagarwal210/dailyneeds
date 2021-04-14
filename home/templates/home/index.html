@@ -24,14 +24,19 @@
                 <a class="nav-link {% block homeactive %}{% endblock homeactive %} " aria-current="page" href= "/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {% block aboutactive %}{% endblock aboutactive %}" href= "/about">About Us</a>
+                <a class="nav-link {% block aboutactive %}{% endblock aboutactive %}" href= "/blog">Blog</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link {% block contactactive %}{% endblock contactactive %}" href= "/contact">Contact Us</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link {% block cartactive %}{% endblock cartactive %}" href= "/cart">Cart
-                  <span class="badge bg-info">{{request.session.cart.keys|length}}</span>
+                  <span class="badge bg-info">
+                    {% if request.session.cart %}    
+                    {{request.session.cart.keys|length}}</span>
+                    {% else %}
+                    0
+                    {% endif %}
                   </a>
     
               </li>

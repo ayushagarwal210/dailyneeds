@@ -22,6 +22,7 @@
                 </thead>
                 <tbody>
                     {% for item in items %}
+                    {% if request.session.cart %}
                     <tr>
                         <!-- <th scope="row">1</th> -->
                         <td>{{forloop.counter}}</td>
@@ -31,13 +32,16 @@
                         <td>{{item|cart_quantity:request.session.cart}}</td>
                         <td>${{item|price_total:request.session.cart}}.00</td>
                     </tr>
+                    {% endif %}
                     {%empty%}
                     <td>Sorry, Cart is empty</td>
                     {% endfor %}
                     <tfoot>
                         <tr>
                             <th class="text-center" colspan="4">Total</th>
+                            {% if request.session.cart %}
                             <th>${{items|total_cart_price:request.session.cart}}.00</th>
+                            {% endif %}
                         </tr>
                     </tfoot>
                 </tbody>
