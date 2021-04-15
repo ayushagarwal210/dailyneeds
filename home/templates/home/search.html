@@ -3,15 +3,15 @@
 {% block title %}DailyNeeds - Search Results{% endblock title %}
 
 {% block main %}
-<div class="container m-4">
+<div class="container m-4 row">
 <h1>Search Results : </h1>
 {% if allItems|length < 1 %}
   <p>No Search Result Found</p>
-  Your Search - <b>"{{search}}"</b> - did not match any document.
+  Your Search - <b>"{{search}}"</b> - did not match any item.
 {% endif %}
 
 {% for item in allItems %}
-      <div class="card m-3" style="width: 18rem;">
+      <div class="card m-3" style="width: 23rem;">
         <img src="{{item.image.url}}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{item.name}}</h5>
@@ -19,6 +19,17 @@
           <p class="card-text">{{item.description | truncatechars:100}}</p>
           <a href="#" class="btn btn-primary">Add to cart</a>
           <a href="{{item.slug}}" class="btn btn-primary">See full details</a>
+        </div>
+      </div>
+      {% endfor %}
+      <h1 class="my-3">Related Blogs : </h1>
+      {% for post in allPosts %}
+      <div class="card m-3" style="width: 23rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <h6 class="card-title">{{post.author}}</h6>
+          <p class="card-text">{{post.content | truncatechars:500}}</p>
+          <a href="/blog/{{post.slug}}" class="btn btn-primary">Continue Reading...</a>
         </div>
       </div>
       {% endfor %}

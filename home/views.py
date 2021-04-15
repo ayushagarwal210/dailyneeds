@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.conf import settings
 from django.http import HttpResponse
-from .models import Contact,Item,Order,ItemComment
+from home.models import Contact,Item,Order,ItemComment
+from blog.models import Post
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -32,8 +33,6 @@ def home(request):
             cart[item]=1
 
         request.session['cart']=cart
-        # print(request.session['cart'])
-        # print(user_email)
         return redirect('/')
         
     return render(request,'home/home.html',context)
@@ -72,9 +71,12 @@ def search(request):
         allItems=Item.objects.none();
     else:
         allItems=Item.objects.filter(name__icontains=search)
+        allPostTitle=Post.objects.filter(title__icontains=search)
+        allPostContent=Post.objects.filter(content__icontains=search)
+        allPosts=allPostTitle.union(allPostContent)
     if allItems.count()==0:
         messages.warning(request,"No Search Results Found")   
-    context={'allItems':allItems,'search':search}
+    context={'allItems':allItems,'search':search,'allPosts':allPosts}
     return render(request,'home/search.html',context)
 
 def handleSignup(request):
@@ -149,11 +151,9 @@ def checkout(request):
         user=request.session.get('user_id')
         cart=request.session.get('cart')
         items=Item.get_product_by_id(list(cart.keys()))
-        print(address,phone,user,cart,items)
 
         for item in items:
             order=Order(user=User(id=user),item=item,price=item.price,quantity=cart.get(str(item.id)),address=address,phone=phone)
-            print(order)
             order.save()
         request.session['cart']={}
         return redirect('/cart')
@@ -161,7 +161,6 @@ def checkout(request):
 def order_view(request):
     user=request.session.get('user_id')
     orders=Order.get_order_by_user(user)
-    # print(orders)
     orders=orders.reverse()
     return render(request,'home/order.html',{'orders':orders})
 

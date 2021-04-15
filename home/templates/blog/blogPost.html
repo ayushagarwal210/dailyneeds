@@ -1,6 +1,10 @@
 {% extends 'home/index.html' %}
+{% block blogactive %}
+  active
+{% endblock blogactive %}
 {% block main %}
-<div class="card m-3" style="width: 98%;">
+{% load static %}
+<div class="card m-6 my-2 container" style="width: 100%;">
     <div class="card-body">
         <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
       <h3 class="card-title text-center">{{post.title}}</h3>
@@ -8,5 +12,28 @@
       <br><hr>
       <p class="card-text-center">{{post.content}}</p>
     </div>
+    <div class="container">
+    <h2>Comments</h2>
+    <hr>
+    <form class="row g-3" action="/blog/postcomment" method="post">
+        {% csrf_token %}
+            <div class="col-md-12">
+              <label for="inputEmail4" class="form-label">Comment</label>
+              <textarea type="text" class="form-control" id="inputEmail4" placeholder="Enter your comment here" cols="30" rows="5" name="comment"></textarea>
+            </div>
+            <div class="col-12">
+                <input type="hidden" name="postsno" value="{{post.id}}">
+                <input type="hidden" name="parentsno" value="">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+    </form>
+    {% for comment in comments %}
+    <div class="row m-3">
+        <img src='{% static "home/user.jfif" %}' alt="" class="col-md-2" style="height: 40px;width: 60px;">
+        <div class="col-md-10"><b>{{comment.user.username}}</b> {{comment.comment}}</div>
+    </div>
+      
+    {% endfor %}
+</div>
   </div>
 {% endblock main %}

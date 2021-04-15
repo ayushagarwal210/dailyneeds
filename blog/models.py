@@ -9,3 +9,10 @@ class Post(models.Model):
     content=models.TextField()
     slug=models.CharField(max_length=255)
     timestamp=models.DateTimeField(default=now)
+
+class BlogComment(models.Model):
+    comment=models.TextField()
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    post=models.ForeignKey(Post,on_delete=models.CASCADE)
+    parent=models.ForeignKey('self',on_delete=models.CASCADE,null=True)
+    timestamp=models.DateTimeField(default=now)

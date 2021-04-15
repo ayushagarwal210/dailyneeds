@@ -60,7 +60,7 @@
             <a href="{{item.slug}}" class="btn btn-primary m-2">See full details</a>
           {% if item|is_in_cart:request.session.cart %}
           <div class=" container d-flex flex-row bd-highlight m-3">
-            <form action="/#{{item.id}}" method="POST" class="col-2">
+            <form action="/#{{item.id}}" method="POST" class="col-2"> 
               {% csrf_token %}    
           <input hidden type="text" name="item" value="{{item.id}}">
             <input type="submit" value="-" class="btn btn-btn-block btn-secondary">

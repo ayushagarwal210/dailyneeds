@@ -34,7 +34,7 @@
                     </tr>
                     {% endif %}
                     {%empty%}
-                    <td>Sorry, Cart is empty</td>
+                    <td>Cart is empty Add Item to order</td>
                     {% endfor %}
                     <tfoot>
                         <tr>
@@ -46,7 +46,11 @@
                     </tfoot>
                 </tbody>
               </table>
+              {% if items|total_cart_price:request.session.cart > 0 %}
               <a href="#" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">Check-Out</a>
+              {% else %}
+              <a href="/" class="btn btn-primary float-right">Add Item</a>
+              {% endif %}
         </div>
     </div>
 
