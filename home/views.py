@@ -102,10 +102,10 @@ def handleSignup(request):
         myUser.name=name
         myUser.phone=phone
         myUser.save()
-        request.session['user_id']=user.id
-        request.session['user_email']=user.email
         messages.success(request,"Account Successfully Created")
         login(request,myUser)
+        request.session['user_id']=myUser.id
+        request.session['user_email']=myUser.email
         return redirect('/')
 
     else:
