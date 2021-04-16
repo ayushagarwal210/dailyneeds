@@ -1,0 +1,19 @@
+{% extends 'home/index.html' %}
+{% block main %}
+<div class="row m-3 container">
+    <h1>Your Blogs -</h1>
+{% for eachpost in post_user %}
+<div class="card m-3" style="width: 100%;">
+    <div class="card-body">
+      <h5 class="card-title">{{eachpost.title}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{eachpost.author}}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{eachpost.timestamp}}</h6>
+      <p class="card-text">{{eachpost.content|truncatechars:500}}</p>
+      <a href="/blog/{{eachpost.slug}}" class="card-link">Continue reading...</a>
+      <a href="/blog/delete/{{eachpost.id}}" class="btn btn-danger">Delete</a>
+      <a href="/blog/edit/{{eachpost.id}}" class="btn btn-warning">Edit</a>
+    </div>
+  </div> 
+{% endfor %}
+</div>
+{% endblock main %}

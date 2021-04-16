@@ -1,0 +1,17 @@
+{% extends 'home/index.html' %}
+{% block main %}
+<form class="row g-3 container m-3" method="POST" action="/blog/edit/{{post_to_edit.id}}">
+    {% csrf_token %}
+  <div class="col-md-12">
+    <label for="inputEmail4" class="form-label">Title</label>
+    <input type="text" class="form-control" name="title" value='{{post_to_edit.title}}' id="inputEmail4">
+  </div>
+  <div class="col-md-12">
+    <label for="inputPassword4" class="form-label">Content</label>
+    <textarea name="content" class="form-control" id="content" cols="30" rows="10">{{post_to_edit.content}} </textarea>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Edit Post</button>
+  </div>
+</form>
+{% endblock main %}

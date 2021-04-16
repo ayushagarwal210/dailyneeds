@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from django.conf import settings
 from blog.models import Post,BlogComment
 from django.contrib import messages
 
@@ -36,3 +37,23 @@ def addpost(request):
         post.save()
         messages.success(request,"Posted successfully")
     return render(request,'blog/addPost.html')
+
+def allposts(request):
+    post_user=Post.objects.filter(author=request.user)
+    return render(request,'blog/allPosts.html',{'post_user':post_user})
+
+def deletepost(request,post_id=None):
+    post_to_delete=Post.objects.get(id=post_id)
+    post_to_delete.delete()
+    messages.success(request,"Post Deleted Successfully")
+    return redirect("/blog/allposts")
+
+
+def editpost(request,post_id=None):
+    post_to_edit=Post.objects.get(id=post_id)
+    if request.method=='POST':    
+        post_to_edit.title=request.POST.get('title')
+        post_to_edit.content=request.POST.get('content')
+        post_to_edit.save()
+        messages.success(request,"Post Edited")
+    return render(request,'blog/editPost.html',{'post_to_edit':post_to_edit})
