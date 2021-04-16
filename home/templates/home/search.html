@@ -24,12 +24,13 @@
       {% endfor %}
       <h1 class="my-3">Related Blogs : </h1>
       {% for post in allPosts %}
-      <div class="card m-3" style="width: 23rem;">
+      <div class="card m-3" style="width: 100%;">
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
           <h6 class="card-title">{{post.author}}</h6>
+          <h6 class="card-title">{{post.timestamp}}</h6>
           <p class="card-text">{{post.content | truncatechars:500}}</p>
-          <a href="/blog/{{post.slug}}" class="btn btn-primary">Continue Reading...</a>
+          <a href="/blog/{{post.slug}}" >Continue Reading...</a>
         </div>
       </div>
       {% endfor %}
