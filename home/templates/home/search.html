@@ -3,6 +3,7 @@
 {% block title %}DailyNeeds - Search Results{% endblock title %}
 
 {% block main %}
+{% load cart %}
 <div class="container m-4 row">
 <h1>Search Results : </h1>
 {% if allItems|length < 1 %}
@@ -17,8 +18,31 @@
           <h5 class="card-title">{{item.name}}</h5>
           <h6 class="card-title">Price: ${{item.price}}.00</h6>
           <p class="card-text">{{item.description | truncatechars:100}}</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
-          <a href="{{item.slug}}" class="btn btn-primary">See full details</a>
+          <form action="/" method="POST"> 
+            {% csrf_token %}    
+            <input hidden type="text" name="item" value="{{item.id}}">
+            <a href="{{item.slug}}" class="btn btn-primary m-2">See full details</a>
+          {% if item|is_in_cart:request.session.cart %}
+          <div class=" container d-flex flex-row bd-highlight m-3">
+            <form action="/#{{item.id}}" method="POST" class="col-2"> 
+              {% csrf_token %}    
+          <input hidden type="text" name="item" value="{{item.id}}">
+            <input type="submit" value="-" class="btn btn-btn-block btn-secondary">
+            <input hidden type="text" name="remove" value="True">
+          </form>
+            <div class="text-center col">{{item|cart_quantity:request.session.cart}} in cart</div>
+            <form action="/#{{item.id}}" method="POST" class="col-2">
+              {% csrf_token %}    
+          <input hidden type="text" name="item" value="{{item.id}}">
+            <input type="submit" value="+" class="btn btn-btn-block btn-secondary">
+          </form> 
+        </div>
+          {% else %}
+          <input type="submit" class="btn btn-primary" value="Add to cart">   
+          {% endif %}
+        </div>
+          </div>
+        </form>
         </div>
       </div>
       {% endfor %}
