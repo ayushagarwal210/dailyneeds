@@ -161,6 +161,7 @@ def checkout(request):
         for item in items:
             order=Order(user=User(id=user),item=item,price=item.price,quantity=cart.get(str(item.id)),address=address,phone=phone)
             order.save()
+        messages.success(request,"Order Placed")
         request.session['cart']={}
         return redirect('/cart')
 
