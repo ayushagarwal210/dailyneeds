@@ -5,6 +5,7 @@ from django.utils.timezone import now
 import datetime
 
 # Create your models here.
+
 class Contact(models.Model):
     name= models.CharField(max_length=300)
     phone=models.CharField(max_length=13)
