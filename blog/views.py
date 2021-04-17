@@ -32,8 +32,7 @@ def addpost(request):
         title=request.POST.get('title')
         author=request.user
         content=request.POST.get('content')
-        slug=request.POST.get('slug')
-        post=Post(title=title,author=author,content=content,slug=slug)
+        post=Post(title=title,author=author,content=content)
         post.save()
         messages.success(request,"Posted successfully")
     return render(request,'blog/addPost.html')
