@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 from django.utils.timezone import now
 import datetime
 
@@ -22,7 +23,11 @@ class Item(models.Model):
     description=models.TextField()
     store=models.CharField(max_length=300)
     timestamp=models.DateTimeField()
-    slug=models.CharField(max_length=30)
+    slug=models.SlugField(max_length=500,unique=True,blank=True)
+
+    def save(self,*args, **kwargs):
+        self.slug=slugify(self.name)+"-"+slugify(self.timestamp)+"-"+slugify(self.store)
+        super().save(*args, **kwargs)
 
     @staticmethod
     def get_product_by_id(ids):

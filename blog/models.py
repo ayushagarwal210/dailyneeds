@@ -13,7 +13,7 @@ class Post(models.Model):
 
     def save(self,*args,**kwargs):
         self.slug=slugify(self.title)+"-"+slugify(self.timestamp)+"-"+slugify(self.author)
-        super().save(args,**kwargs)
+        super().save(*args,**kwargs)
 
 
 class BlogComment(models.Model):
