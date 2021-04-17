@@ -81,14 +81,20 @@ def search(request):
 
 def handleSignup(request):
     if request.method=='POST':
-        username=request.POST['username']
-        name=request.POST['name']
+        firstname=request.POST['firstname']
+        lastname=request.POST['lastname']
         phone=request.POST['phone']
         email=request.POST['email']
         pass1=request.POST['pass1']
         pass2=request.POST['pass2']
 
         # Check Error
+        counter=0
+        username=firstname.lower()+"_" +str(counter)
+        if User.objects.filter(username=username):
+            counter=counter+1
+            username=firstname.lower()+"_" +str(counter)
+            
         if len(phone)<10:
             messages.error(request,"Invalid Phone Number")
             return redirect('/')
@@ -99,8 +105,8 @@ def handleSignup(request):
 
         # Create new Account
         myUser=User.objects.create_user(username,email,pass1)
-        myUser.name=name
-        myUser.phone=phone
+        myUser.first_name=firstname
+        myUser.last_name=lastname
         myUser.save()
         messages.success(request,"Account Successfully Created")
         login(request,myUser)
