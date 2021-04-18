@@ -10,10 +10,31 @@
       <h6 class="card-subtitle mb-2 text-muted">{{eachpost.timestamp}}</h6>
       <p class="card-text">{{eachpost.content|truncatechars:500}}</p>
       <a href="/blog/{{eachpost.slug}}" class="card-link">Continue reading...</a>
-      <a href="/blog/delete/{{eachpost.id}}" class="btn btn-danger">Delete</a>
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Delete
+</button>
       <a href="/blog/edit/{{eachpost.id}}" class="btn btn-warning">Edit</a>
     </div>
   </div> 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Do you want to delete this post?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href="/blog/delete/{{eachpost.id}}" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endfor %}
 </div>
 {% endblock main %}

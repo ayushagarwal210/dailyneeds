@@ -6,6 +6,7 @@ from blog.models import Post
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -134,6 +135,7 @@ def handleLogin(request):
     else:
         return HttpResponse("404 not found")
 
+@login_required
 def handleLogout(request):
     logout(request)
     messages.success(request,"Successfully Logged Out")
@@ -149,7 +151,7 @@ def cart(request):
         items=Item.get_product_by_id(ids)
     return render(request,'home/cart.html', {'items':items})
     
-
+@login_required
 def checkout(request):
     if request.method=='POST':
         address=request.POST.get('address')
@@ -165,6 +167,7 @@ def checkout(request):
         request.session['cart']={}
         return redirect('/cart')
 
+@login_required
 def order_view(request):
     user=request.session.get('user_id')
     orders=Order.get_order_by_user(user)
