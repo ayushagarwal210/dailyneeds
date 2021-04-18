@@ -46,10 +46,14 @@
                     </tfoot>
                 </tbody>
               </table>
+              {% if user.is_authenticated %}
               {% if items|total_cart_price:request.session.cart > 0 %}
               <a href="#" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">Check-Out</a>
               {% else %}
               <a href="/" class="btn btn-primary float-right">Add Item</a>
+              {% endif %}
+              {% else %}
+              <button type="button" class="btn btn-secondary" disabled>Login to checkout</button>
               {% endif %}
         </div>
     </div>
