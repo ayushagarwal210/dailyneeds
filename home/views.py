@@ -12,7 +12,6 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     allItems=Item.objects.all()
     context={'allItems' : allItems}
-    print(request.session.get('user_id'))
     if request.method=='POST':
         item=request.POST.get('item')
         remove=request.POST.get('remove')
