@@ -61,7 +61,6 @@ def item(request,slug):
             replydict[reply.parent.sno]=[reply]
         else:
             replydict[reply.parent.sno].append(reply)
-
     context={'item':item,'comments':comments,'user':request.user,'replydict':replydict}
     return render(request,'home/item.html',context)
 
