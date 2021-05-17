@@ -1,1 +1,1 @@
-web: gunicorn dailyneeds.wsgi —log-file -
+web: gunicorn dailyneeds.wsgi --log-file -
