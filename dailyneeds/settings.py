@@ -31,13 +31,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["daily-needs.herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = [".herokuapp.com", "127.0.0.1"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
+    'whitenoise.runserver_nostatic',
     'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -91,6 +92,8 @@ DATABASES = {
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
 
+WHITENOISE_USE_FINDERS = True
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -135,6 +138,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Base url to serve media files
 MEDIA_URL = '/media/'
 
