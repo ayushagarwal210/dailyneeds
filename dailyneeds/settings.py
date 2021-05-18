@@ -12,10 +12,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-# import dj_database_url
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
-    messages.ERROR: 'danger'
+    messages.ERROR: 'danger',
+    # 50: 'critical',
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,7 +38,6 @@ ALLOWED_HOSTS = ["daily-needs.herokuapp.com", "127.0.0.1"]
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
-    'whitenoise.runserver_nostatic',
     'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -89,10 +88,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
-
-WHITENOISE_USE_FINDERS = True
 
 
 # Password validation
@@ -132,13 +127,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+#     '/var/www/static/',
+# ]
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Base url to serve media files
 MEDIA_URL = '/media/'
 
