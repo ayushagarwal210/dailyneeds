@@ -24,11 +24,7 @@
             <div class="col-12">
                 <input type="hidden" name="postsno" value="{{post.id}}">
                 <input type="hidden" name="parentsno" value="">
-                {% if user.is_authenticated %}
               <button type="submit" class="btn btn-primary">Submit</button>
-              {% else %}
-              <button type="submit" class="btn btn-primary" disabled>Login To Comment</button>
-              {% endif %}
             </div>
     </form>
     {% for comment in comments %}
