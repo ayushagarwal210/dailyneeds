@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def bloghome(request):
-    allPosts=Post.objects.all().order_by('-timestamp')
+    allPosts=Post.objects.all()
     context={'allPosts':allPosts}
     return render(request,'blog/blogHome.html',context)
 
@@ -41,26 +41,28 @@ def addpost(request):
 
 @login_required
 def allposts(request):
-    post_user=Post.objects.filter(author=request.user).order_by('-timestamp')
-    count=0
-    for posts in post_user:
-        count=count+1
-    return render(request,'blog/allPosts.html',{'post_user':post_user,'count':count})
+    post_user=Post.objects.filter(author=request.user)
+    return render(request,'blog/allPosts.html',{'post_user':post_user})
 
 @login_required
 def deletepost(request,post_id=None):
-    post_to_delete=Post.objects.get(id=post_id,author=request.user)
-    post_to_delete.delete()
-    messages.success(request,"Post Deleted Successfully")
+    if request.user==Post.author:
+        post_to_delete=Post.objects.get(id=post_id)
+        post_to_delete.delete()
+        messages.success(request,"Post Deleted Successfully")
+    else:
+        return HttpResponse("404 error")
     return redirect("/blog/allposts")
-
 
 @login_required
 def editpost(request,post_id=None):
-    post_to_edit=Post.objects.get(id=post_id,author=request.user)
-    if request.method=='POST':    
-        post_to_edit.title=request.POST.get('title')
-        post_to_edit.content=request.POST.get('content')
-        post_to_edit.save()
-    messages.success(request,"Post Edited")
+    if request.user==Post.author:
+        post_to_edit=Post.objects.get(id=post_id)
+        if request.method=='POST':    
+            post_to_edit.title=request.POST.get('title')
+            post_to_edit.content=request.POST.get('content')
+            post_to_edit.save()
+            messages.success(request,"Post Edited")
+    else:
+        return HttpResponse("404 error")
     return render(request,'blog/editPost.html',{'post_to_edit':post_to_edit})
