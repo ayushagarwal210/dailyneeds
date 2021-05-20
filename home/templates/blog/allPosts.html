@@ -1,10 +1,7 @@
 {% extends 'home/index.html' %}
 {% block main %}
 <div class="row m-3 container">
-    <h1>Your Blogs ({{count}}) -</h1>
-    {% if count < 1 %}
-      <p>No Posts to show, Add some posts</p>
-    {% endif %}
+    <h1>Your Blogs -</h1>
 {% for eachpost in post_user %}
 <div class="card m-3" style="width: 100%;">
     <div class="card-body">
@@ -40,5 +37,4 @@
 </div>
 {% endfor %}
 </div>
-<a href="/blog/addpost" class="btn btn-primary m-3 mx-5">Add New Post</a>
 {% endblock main %}
